@@ -17,7 +17,7 @@ NestJS Authentication with JwtService using Bcrypt  @nestjs/jwt
 
 ## Technologies stack:
 
-- Typescript, nestjs, JwtService  @nestjs/jwt
+- Typescript, nestjs, JwtService,  @nestjs/jwt
 - Bcrypt
 - mongoose
 
@@ -32,7 +32,7 @@ $ npm install
 ### 2. Rename the .env.example filename to .env and set your local variables
 
 ```bash
-$ mv .env.example .env
+$ mv .env.example .env.development
 ```
 
 ### 3. Start the application

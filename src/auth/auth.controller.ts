@@ -36,7 +36,7 @@ export class AuthController {
   @ApiResponse(loginSuccessResponse)
   @ApiResponse(loginErrorResponse)
   @Public()
-  @HttpCode(200)
+  @HttpCode(200) 
   @UseFilters(new HttpExceptionFilter())
   @Post("login")
   async signIn(@Body() signInDto: SignInDto, @Res() res: Response) {
