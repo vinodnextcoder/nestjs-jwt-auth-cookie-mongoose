@@ -17,7 +17,7 @@ export class HelloController {
     @Get()
     async helloWorld(): Promise<string> {
       const id: string = uuid();
-      this.logger.log('User login api called',id,'hello.controler.ts','GET','/','helloWorld');
+      this.logger.log('Hello world controller called',id,'hello.controler.ts','GET','/','helloWorld');
       return 'Hello World!';
     }
 }
