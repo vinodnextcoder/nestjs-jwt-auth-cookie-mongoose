@@ -7,13 +7,13 @@
 
 ## Description
 
-NestJS Authentication with JwtService using Bcrypt  @nestjs/jwt 
+NestJS Authentication with JwtService using Bcrypt  @nestjs/jwt.
 
 ## Features
 
 1. Register
 2. Login
-3. Unit test
+3. Unit test using jest
 
 ## Technologies stack:
 
