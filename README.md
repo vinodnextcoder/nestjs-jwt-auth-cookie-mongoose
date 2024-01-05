@@ -3,7 +3,7 @@
 
 ![Prettier](https://img.shields.io/badge/Code%20style-prettier-informational?logo=prettier&logoColor=white)
 [![GPL v3 License](https://img.shields.io/badge/License-GPLv3-green.svg)](./LICENSE)
-[![HitCount](https://hits.dwyl.com/anilahir/nestjs-authentication-and-authorization.svg)](https://hits.dwyl.com/vinodnextcoder/nestjs-jwt-auth-cookie-mongoose)
+[![HitCount](https://hits.dwyl.com/vinodnextcoder/nestjs-jwt-auth-cookie-mongoose.svg)](https://hits.dwyl.com/vinodnextcoder/nestjs-jwt-auth-cookie-mongoose)
 
 ## Description
 
