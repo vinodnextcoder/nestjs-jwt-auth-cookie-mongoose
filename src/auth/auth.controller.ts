@@ -6,16 +6,16 @@ import {
   Post,
   Res,
   UseFilters,
-  UseGuards
+  UseGuards,
 } from "@nestjs/common";
-import { LoggerService } from '../common/service/logger.service';
+import { LoggerService } from "../common/service/logger.service";
 import { SignInDto } from "./dto/signIn.dto";
 import { Response } from "express";
 import { AuthService } from "./auth.service";
 import { Public } from "./decorators/public.decorator";
 import { HttpExceptionFilter } from "../utils/http-exception.filter";
 import { RtGuard } from "../common/guards/rt.guard";
-import { v4 as uuid } from 'uuid';
+import { v4 as uuid } from "uuid";
 import {
   sendResponse,
   loginSuccessResponse,
@@ -23,25 +23,39 @@ import {
   refreshErrorResponse,
 } from "../utils/index";
 import { statusMessage } from "../constant/statusMessage";
-import { ApiBearerAuth, ApiCookieAuth, ApiResponse, ApiTags } from "@nestjs/swagger";
+import {
+  ApiBearerAuth,
+  ApiCookieAuth,
+  ApiResponse,
+  ApiTags,
+} from "@nestjs/swagger";
 import { GetCurrentUser, GetCurrentUserId } from "../common/decorators";
 
 @ApiTags("auth")
 @Controller("auth")
 export class AuthController {
   [x: string]: any;
-  constructor(private authService: AuthService,
-    private readonly logger: LoggerService) {}
+  constructor(
+    private authService: AuthService,
+    private readonly logger: LoggerService
+  ) {}
 
   @ApiResponse(loginSuccessResponse)
   @ApiResponse(loginErrorResponse)
   @Public()
-  @HttpCode(200) 
+  @HttpCode(200)
   @UseFilters(new HttpExceptionFilter())
   @Post("login")
   async signIn(@Body() signInDto: SignInDto, @Res() res: Response) {
     const id: string = uuid();
-    this.logger.log('User login api called',id,'auth.controler.ts','POST','/login','signIn');
+    this.logger.log(
+      "User login api called",
+      id,
+      "auth.controler.ts",
+      "POST",
+      "/login",
+      "signIn"
+    );
     const token = await this.authService.signIn(
       signInDto.email,
       signInDto.password
@@ -74,8 +88,8 @@ export class AuthController {
 
   @ApiResponse(loginSuccessResponse)
   @ApiResponse(refreshErrorResponse)
-  @ApiCookieAuth('refresh_token')
-  @ApiBearerAuth('JWT-auth')
+  @ApiCookieAuth("refresh_token")
+  @ApiBearerAuth("JWT-auth")
   @Public()
   @UseGuards(RtGuard)
   @Post("/refresh")
@@ -88,7 +102,14 @@ export class AuthController {
   ) {
     const tokens = await this.authService.getTokens(payload);
     const id: string = uuid();
-    this.logger.log('User refresh api called',id,'auth.controler.ts','POST','/refresh','refreshTokens');
+    this.logger.log(
+      "User refresh api called",
+      id,
+      "auth.controler.ts",
+      "POST",
+      "/refresh",
+      "refreshTokens"
+    );
     res.cookie("access_token", tokens.access_token, {
       httpOnly: false,
       expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
@@ -105,6 +126,35 @@ export class AuthController {
       secure: false,
     });
 
+    return sendResponse(
+      res,
+      HttpStatus.OK,
+      statusMessage[HttpStatus.OK],
+      true,
+      null
+    );
+  }
+
+  @ApiResponse(loginSuccessResponse)
+  @ApiResponse(loginErrorResponse)
+  @Public()
+  @HttpCode(200)
+  @UseFilters(new HttpExceptionFilter())
+  @Post("logout")
+  async logout(@Body() signInDto: SignInDto, @Res() res: Response) {
+    const id: string = uuid();
+    this.logger.log(
+      "User logout api called",
+      id,
+      "auth.controler.ts",
+      "POST",
+      "/logout",
+      "logout"
+    );
+
+    res.clearCookie("access_token");
+    res.clearCookie("refresh_token");
+    res.clearCookie("uid");
     return sendResponse(
       res,
       HttpStatus.OK,
