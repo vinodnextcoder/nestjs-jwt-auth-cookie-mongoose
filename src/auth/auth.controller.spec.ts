@@ -93,4 +93,23 @@ describe("Auth Controller", () => {
       expect(signInSpy).toHaveBeenCalledWith("te@test.com", "Password1@");
     });
   });
+
+
+  it("should clear cookie", async () => {
+    const mockResponse: MockResponse<Response> = createResponse();
+    mockResponse.json = jest.fn();
+    mockResponse.cookie = jest.fn();
+    mockResponse.clearCookie = jest.fn();
+
+    await controller.logout(mockUserRequest, mockResponse);
+
+    expect(mockResponse.json).toHaveBeenCalledWith({
+      message: "SUCCESS",
+      isSuccess: true,
+      statusCode:200,
+      data: null,
+    });
+
+  
+  });
 });
