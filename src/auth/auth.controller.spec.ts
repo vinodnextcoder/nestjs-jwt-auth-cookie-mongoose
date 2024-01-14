@@ -41,58 +41,56 @@ describe("Auth Controller", () => {
     service = module.get<AuthService>(AuthService);
   });
 
-  describe("signIn", () => {
-    it("should create access token and set cookies", async () => {
-      const mockResponse: MockResponse<Response> = createResponse();
-      mockResponse.json = jest.fn();
-      mockResponse.cookie = jest.fn();
 
-      await controller.signIn(mockUserRequest, mockResponse);
+  it("should create access token and set cookies", async () => {
+    const mockResponse: MockResponse<Response> = createResponse();
+    mockResponse.json = jest.fn();
+    mockResponse.cookie = jest.fn();
 
-      expect(mockResponse.json).toHaveBeenCalledWith({
-        message: "SUCCESS",
-        isSuccess: true,
-        statusCode:200,
-        data: null,
-      });
+    await controller.signIn(mockUserRequest, mockResponse);
 
-      expect(mockResponse.cookie).toHaveBeenCalledWith(
-        'access_token',
-        'eyJhbGciOiJIUzI1NiJ9.sss.aaaaa',
-        expect.objectContaining({
-          httpOnly: false,
-          expires: expect.any(Date),
-          path: '/',
-          sameSite: 'none',
-          secure: false,
-        })
-      );
-
-      expect(mockResponse.cookie).toHaveBeenCalledWith(
-        'refresh_token',
-        'eyJhbGciOiJIUzI1NiJ9.sss.aaaaa',
-        expect.objectContaining({
-          httpOnly: false,
-          expires: expect.any(Date),
-          path: '/',
-          sameSite: 'none',
-          secure: false,
-        })
-      );
+    expect(mockResponse.json).toHaveBeenCalledWith({
+      message: "SUCCESS",
+      isSuccess: true,
+      statusCode: 200,
+      data: null,
     });
 
-    it("should call the service's signIn method", async () => {
-      const mockResponse: MockResponse<Response> = createResponse();
-      mockResponse.json = jest.fn();
-      mockResponse.cookie = jest.fn();
+    expect(mockResponse.cookie).toHaveBeenCalledWith(
+      'access_token',
+      'eyJhbGciOiJIUzI1NiJ9.sss.aaaaa',
+      expect.objectContaining({
+        httpOnly: false,
+        expires: expect.any(Date),
+        path: '/',
+        sameSite: 'none',
+        secure: false,
+      })
+    );
 
-      const signInSpy = jest.spyOn(service, "signIn");
-
-      await controller.signIn(mockUserRequest, mockResponse);
-
-      expect(signInSpy).toHaveBeenCalledWith("te@test.com", "Password1@");
-    });
+    expect(mockResponse.cookie).toHaveBeenCalledWith(
+      'refresh_token',
+      'eyJhbGciOiJIUzI1NiJ9.sss.aaaaa',
+      expect.objectContaining({
+        httpOnly: false,
+        expires: expect.any(Date),
+        path: '/',
+        sameSite: 'none',
+        secure: false,
+      })
+    );
   });
+
+  it("should call the service's signIn method", async () => {
+    const mockResponse: MockResponse<Response> = createResponse();
+    mockResponse.json = jest.fn();
+    mockResponse.cookie = jest.fn();
+    const signInSpy = jest.spyOn(service, "signIn");
+    await controller.signIn(mockUserRequest, mockResponse);
+    expect(signInSpy).toHaveBeenCalledWith("te@test.com", "Password1@");
+  });
+
+
 
 
   it("should clear cookie", async () => {
@@ -102,14 +100,12 @@ describe("Auth Controller", () => {
     mockResponse.clearCookie = jest.fn();
 
     await controller.logout(mockUserRequest, mockResponse);
-
     expect(mockResponse.json).toHaveBeenCalledWith({
       message: "SUCCESS",
       isSuccess: true,
-      statusCode:200,
+      statusCode: 200,
       data: null,
     });
 
-  
   });
 });
