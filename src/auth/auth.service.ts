@@ -12,17 +12,16 @@ export class AuthService {
     private usersService: UserService,
     private jwtService: JwtService,
     private readonly logger: LoggerService
-  ) {}
+  ) { }
 
   async signIn(email: string, pass: string) {
-    
+
     const id: string = uuid();
-    this.logger.log('auth service api called',id,'auth.service.ts','','','signIn-service');
+    this.logger.log('auth service api called', id, 'auth.service.ts', '', '', 'signIn-service');
     const user = await this.usersService.findOneUser(email);
     const match = await bcrypt.compare(pass, user?.password);
-
     if (match) {
-      const payload = { email: user.email, userId: user._id.toString(),username: user.username};
+      const payload = { email: user.email, userId: user._id.toString(), username: user.username };
       const tokens = await this.getTokens(payload);
       return {
         ...tokens
@@ -48,7 +47,7 @@ export class AuthService {
     await this.usersService.updateOne(user._id, { hashdRt: rtHash });
     return tokens;
   }
-  
+
   async getTokens(user: any) {
 
     const [at, rt] = await Promise.all([
@@ -56,7 +55,7 @@ export class AuthService {
         {
           sub: user.userId,
           email: user.email,
-          username:user.username
+          username: user.username
         },
         {
           secret: jwtConstants.secret,
@@ -67,7 +66,7 @@ export class AuthService {
         {
           sub: user.userId,
           email: user.email,
-          username:user.username
+          username: user.username
         },
         {
           secret: jwtConstants.secret,
