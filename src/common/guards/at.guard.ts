@@ -15,7 +15,7 @@ export class AuthGuard implements CanActivate {
   constructor(
     private jwtService: JwtService,
     private reflector: Reflector,
-  ) {}
+  ) { }
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
@@ -46,7 +46,15 @@ export class AuthGuard implements CanActivate {
   }
 
   private extractTokenFromHeader(request: Request): string | undefined {
-    const [type, token] = request.headers.authorization?.split(' ') ?? [];
-    return type === 'Bearer' ? token : undefined;
+    let isCookieAuth = `${process.env.IS_COOKIE_AUTH}`;
+    let token = undefined;
+    if (isCookieAuth === "true") {
+      token = request?.cookies?.refresh_token ?? null;
+    } else {
+      const [type, tokenValue] =
+        request.headers.authorization?.split(" ") ?? [];
+      token = type === "Bearer" ? tokenValue : undefined;
+    }
+    return token ? token : undefined;
   }
 }
