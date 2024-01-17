@@ -15,6 +15,8 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
+    "seed": " cross-env NODE_ENV=development ts-node src/seeder/seeder.ts",
+    "seedrefresh": "cross-env NODE_ENV=development ts-node src/seeder/seeder.ts  --refresh",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "cross-env NODE_ENV=test  jest --config ./test/jest-e2e.json  --forceExit",
     "prepare": "husky install"
@@ -35,6 +37,7 @@
     "express": "^4.18.2",
     "helmet": "^7.1.0",
     "mongoose": "7.5.0",
+    "nestjs-seeder": "^0.3.2",
     "reflect-metadata": "0.1.13",
     "rimraf": "5.0.1",
     "rxjs": "7.8.1",
@@ -66,7 +69,7 @@
     "supertest": "6.3.3",
     "ts-jest": "^29.1.1",
     "ts-loader": "9.4.4",
-    "ts-node": "10.9.1",
+    "ts-node": "^10.9.2",
     "tsconfig-paths": "4.2.0",
     "typescript": "5.1.6"
   },
