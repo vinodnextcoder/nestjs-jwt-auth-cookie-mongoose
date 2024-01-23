@@ -12,7 +12,7 @@ import { LoggerService } from "../common/service/logger.service";
 import { SignInDto } from "./dto/signIn.dto";
 import { Response } from "express";
 import { AuthService } from "./auth.service";
-import { Public } from "./decorators/public.decorator";
+import { Public } from "../common/decorators";
 import { HttpExceptionFilter } from "../utils/http-exception.filter";
 import { RtGuard } from "../common/guards/rt.guard";
 import { v4 as uuid } from "uuid";
@@ -38,7 +38,7 @@ export class AuthController {
   constructor(
     private authService: AuthService,
     private readonly logger: LoggerService
-  ) {}
+  ) { }
 
   @ApiResponse(loginSuccessResponse)
   @ApiResponse(loginErrorResponse)
