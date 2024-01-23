@@ -10,7 +10,7 @@ import {
   UsePipes,
   ValidationPipe,
 } from "@nestjs/common";
-import { Public } from "../auth/decorators/public.decorator";
+import { Public } from "../common/decorators";
 import { LoggerService } from '../common/service/logger.service';
 import { UserService } from "./users.service";
 import { CreateUserDto } from "./dto/create-user.dto";
