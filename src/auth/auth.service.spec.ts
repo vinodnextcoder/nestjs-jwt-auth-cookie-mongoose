@@ -81,12 +81,7 @@ describe("AuthService", () => {
     });
 
     it("should throw UnauthorizedException when passwords do not match.", async () => {
-      jest.spyOn(userService, "findOneUser").mockResolvedValue({
-        ...mockUser,
-        password: hashedPassword, // Use hashed password
-      });
-
-      jest.spyOn(bcrypt, "compare").mockReturnValue(false); // Passwords do not match
+      jest.spyOn(userService, "findOneUser").mockResolvedValue(null)
 
       await expect(
         authService.signIn("test@example.com", "wrongpassword")

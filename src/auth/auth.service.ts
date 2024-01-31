@@ -20,7 +20,7 @@ export class AuthService {
     const id: string = uuid();
     this.logger.log('auth service api called', id, 'auth.service.ts', '', '', 'signIn-service');
     const user = await this.usersService.findOneUser(email);
-    if (!null) {
+    if (!user) {
       throw new UnauthorizedException('Username and password wrong.');
     }
 
