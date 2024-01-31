@@ -16,24 +16,25 @@ export class UserService {
     @InjectModel(RefresToken.name)
     private readonly RefresTokenModel: Model<RefresToken>,
     private readonly logger: LoggerService
-  ) {}
+  ) { }
 
   async create(createUserDto: CreateUserDto): Promise<CreateUserDto> {
     const id: string = uuid();
-    this.logger.log('User service create called',id,'users.service.ts','','','create-service');
+    this.logger.log('User service create called', id, 'users.service.ts', '', '', 'create-service');
     const saltOrRounds = 10;
     const hashedPassword = await bcrypt.hash(
       createUserDto.password,
       saltOrRounds
     );
     createUserDto.password = hashedPassword;
+    createUserDto.email_code = (Math.floor(Math.random() * (9000000)) + 1000000).toString();
     const createduUser = await this.userModel.create(createUserDto);
     return createduUser;
   }
 
   async findAll(): Promise<userData[]> {
     const id: string = uuid();
-    this.logger.log('User service findall called',id,'users.service.ts','','','findAll-service');
+    this.logger.log('User service findall called', id, 'users.service.ts', '', '', 'findAll-service');
     return this.userModel.find().exec();
   }
 

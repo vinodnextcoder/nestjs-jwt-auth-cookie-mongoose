@@ -6,6 +6,8 @@ import { CreateUserDto } from "./dto/create-user.dto";
 import { createResponse, MockResponse } from "node-mocks-http";
 import { Response } from "express";
 import { JwtService } from "@nestjs/jwt";
+import { EmailService } from '../common/service/mail.service';
+
 
 describe("User Controller", () => {
   let controller: UserController;
@@ -78,13 +80,19 @@ describe("User Controller", () => {
             log: jest.fn(),
           },
         },
-        
-      ],
+        {
+          provide: EmailService,
+          useValue: {
+            sendEmailVerification: jest.fn(),
+          }
+        }
+      ]
     }).compile();
 
     controller = module.get<UserController>(UserController);
     service = module.get<UserService>(UserService);
   });
+
 
   describe("create()", () => {
     it("should create a new user", async () => {
