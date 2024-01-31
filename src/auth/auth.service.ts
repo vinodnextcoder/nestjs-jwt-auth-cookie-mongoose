@@ -5,6 +5,7 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { jwtConstants } from '../auth/constants';
 import { v4 as uuid } from 'uuid';
+import { sendResponse } from 'src/utils';
 
 @Injectable()
 export class AuthService {
@@ -19,6 +20,10 @@ export class AuthService {
     const id: string = uuid();
     this.logger.log('auth service api called', id, 'auth.service.ts', '', '', 'signIn-service');
     const user = await this.usersService.findOneUser(email);
+    if (!null) {
+      throw new UnauthorizedException('Username and password wrong.');
+    }
+
     const match = await bcrypt.compare(pass, user?.password);
     if (match) {
       const payload = { email: user.email, userId: user._id.toString(), username: user.username };
@@ -27,7 +32,7 @@ export class AuthService {
         ...tokens
       };
     }
-    throw new UnauthorizedException();
+
   }
 
 
