@@ -5,6 +5,7 @@ import { UserService } from "./users.service";
 import { User, UserSchema } from "./schemas/user.schema";
 import { RefresToken, RefresTokenSchema } from "./schemas/refreshtoken.schema";
 import { LoggerService } from "../common/service/logger.service";
+import { EmailService } from '../common/service/mail.service';
 
 @Module({
   imports: [
@@ -14,7 +15,7 @@ import { LoggerService } from "../common/service/logger.service";
     ]),
   ],
   controllers: [UserController],
-  providers: [UserService,LoggerService],
+  providers: [UserService, LoggerService, EmailService],
   exports: [UserService],
 })
-export class UserModule {}
+export class UserModule { }

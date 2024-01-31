@@ -27,13 +27,14 @@ import { responseData, userData } from "../interface/common";
 import { AuthGuard } from "../common/guards/at.guard";
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { v4 as uuid } from 'uuid';
-
+import { EmailService } from '../common/service/mail.service';
 
 @ApiTags("users")
 @Controller("v1/users")
 export class UserController {
   constructor(private readonly userService: UserService,
-    private readonly logger: LoggerService) { }
+    private readonly logger: LoggerService,
+    private readonly mailer: EmailService) { }
 
   @ApiOperation({
     summary: "Create user",
@@ -52,6 +53,7 @@ export class UserController {
     const id: string = uuid();
     this.logger.log('User create api called', id, 'users.controler.ts', 'POST', '/users', 'create');
     const user = await this.userService.create(createCatDto);
+    await this.mailer.sendEmailVerification(user.email, user.email_code)
     return sendResponse(
       res,
       HttpStatus.CREATED,
