@@ -53,7 +53,11 @@ export class UserController {
     const id: string = uuid();
     this.logger.log('User create api called', id, 'users.controler.ts', 'POST', '/users', 'create');
     const user = await this.userService.create(createCatDto);
-    await this.mailer.sendEmailVerification(user.email, user.email_code)
+    const isMAil = process.env.IS_EMAIL
+    console.log('##############', isMAil)
+    if (isMAil === "true") {
+      await this.mailer.sendEmailVerification(user.email, user.email_code)
+    }
     return sendResponse(
       res,
       HttpStatus.CREATED,
