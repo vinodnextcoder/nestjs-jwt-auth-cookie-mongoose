@@ -60,21 +60,20 @@ export class AuthController {
       signInDto.email,
       signInDto.password
     );
+    console.log(token)
 
     res.cookie("access_token", token.access_token, {
-      httpOnly: false,
-      expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
-      path: "/",
-      sameSite: "none",
+      httpOnly: true,
       secure: false,
+      sameSite: 'lax',
+      expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
     });
 
     res.cookie("refresh_token", token.refresh_token, {
-      httpOnly: false,
-      expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
-      path: "/",
-      sameSite: "none",
+      httpOnly: true,
       secure: false,
+      sameSite: 'lax',
+      expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000)
     });
 
     return sendResponse(
@@ -82,7 +81,7 @@ export class AuthController {
       HttpStatus.OK,
       statusMessage[HttpStatus.OK],
       true,
-      null
+      token
     );
   }
 
@@ -100,7 +99,7 @@ export class AuthController {
     @GetCurrentUser("user") userId: string,
     @Res() res: Response
   ) {
-    const tokens = await this.authService.getTokens(payload);
+    const token = await this.authService.getTokens(payload);
     const id: string = uuid();
     this.logger.log(
       "User refresh api called",
@@ -110,20 +109,19 @@ export class AuthController {
       "/refresh",
       "refreshTokens"
     );
-    res.cookie("access_token", tokens.access_token, {
-      httpOnly: false,
+    res.cookie("access_token", token.access_token, {
+      httpOnly: true,
       expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
       path: "/",
-      sameSite: "none",
-      secure: false,
+      secure: true,
     });
 
-    res.cookie("refresh_token", tokens.refresh_token, {
-      httpOnly: false,
+    res.cookie("refresh_token", token.refresh_token, {
+      httpOnly: true,
       expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
       path: "/",
-      sameSite: "none",
-      secure: false,
+
+      secure: true,
     });
 
     return sendResponse(
@@ -131,7 +129,7 @@ export class AuthController {
       HttpStatus.OK,
       statusMessage[HttpStatus.OK],
       true,
-      null
+      token
     );
   }
 

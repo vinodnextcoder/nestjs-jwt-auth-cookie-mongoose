@@ -40,7 +40,19 @@ async function bootstrap() {
   SwaggerModule.setup("api", app, document);
   app.use(helmet());
   app.use(cookieParser());
-  app.enableCors();
+  app.enableCors({
+    origin: [
+      'http://localhost:3000',
+      'http://example.com',
+      'http://www.example.com',
+      'http://app.example.com',
+      'https://example.com',
+      'https://www.example.com',
+      'https://app.example.com',
+    ],
+    methods: ["GET", "POST"],
+    credentials: true
+  });
   await app.listen(Number(process.env.PORT) || 3000);
   console.log(`Application is running on: ${await app.getUrl()}`);
 }
