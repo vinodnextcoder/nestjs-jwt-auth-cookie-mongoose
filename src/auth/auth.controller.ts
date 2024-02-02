@@ -63,19 +63,17 @@ export class AuthController {
     console.log(token)
 
     res.cookie("access_token", token.access_token, {
-      httpOnly: false,
-      expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
-      path: "/",
-      sameSite: "none",
+      httpOnly: true,
       secure: false,
+      sameSite: 'lax',
+      expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
     });
 
     res.cookie("refresh_token", token.refresh_token, {
-      httpOnly: false,
-      expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
-      path: "/",
-      sameSite: "none",
+      httpOnly: true,
       secure: false,
+      sameSite: 'lax',
+      expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000)
     });
 
     return sendResponse(
@@ -112,19 +110,18 @@ export class AuthController {
       "refreshTokens"
     );
     res.cookie("access_token", token.access_token, {
-      httpOnly: false,
+      httpOnly: true,
       expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
       path: "/",
-      sameSite: "none",
-      secure: false,
+      secure: true,
     });
 
     res.cookie("refresh_token", token.refresh_token, {
-      httpOnly: false,
+      httpOnly: true,
       expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
       path: "/",
-      sameSite: "none",
-      secure: false,
+
+      secure: true,
     });
 
     return sendResponse(

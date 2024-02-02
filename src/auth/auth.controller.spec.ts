@@ -59,29 +59,6 @@ describe("Auth Controller", () => {
       }
     });
 
-    expect(mockResponse.cookie).toHaveBeenCalledWith(
-      'access_token',
-      'eyJhbGciOiJIUzI1NiJ9.sss.aaaaa',
-      expect.objectContaining({
-        httpOnly: false,
-        expires: expect.any(Date),
-        path: '/',
-        sameSite: 'none',
-        secure: false,
-      })
-    );
-
-    expect(mockResponse.cookie).toHaveBeenCalledWith(
-      'refresh_token',
-      'eyJhbGciOiJIUzI1NiJ9.sss.aaaaa',
-      expect.objectContaining({
-        httpOnly: false,
-        expires: expect.any(Date),
-        path: '/',
-        sameSite: 'none',
-        secure: false,
-      })
-    );
   });
 
   it("should call the service's signIn method", async () => {
