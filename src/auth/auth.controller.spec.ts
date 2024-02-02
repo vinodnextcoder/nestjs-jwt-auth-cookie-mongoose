@@ -53,7 +53,10 @@ describe("Auth Controller", () => {
       message: "SUCCESS",
       isSuccess: true,
       statusCode: 200,
-      data: null,
+      data: {
+        "access_token": "eyJhbGciOiJIUzI1NiJ9.sss.aaaaa",
+        "refresh_token": "eyJhbGciOiJIUzI1NiJ9.sss.aaaaa",
+      }
     });
 
     expect(mockResponse.cookie).toHaveBeenCalledWith(

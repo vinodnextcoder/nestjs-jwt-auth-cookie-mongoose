@@ -60,6 +60,7 @@ export class AuthController {
       signInDto.email,
       signInDto.password
     );
+    console.log(token)
 
     res.cookie("access_token", token.access_token, {
       httpOnly: false,
@@ -82,7 +83,7 @@ export class AuthController {
       HttpStatus.OK,
       statusMessage[HttpStatus.OK],
       true,
-      null
+      token
     );
   }
 
@@ -100,7 +101,7 @@ export class AuthController {
     @GetCurrentUser("user") userId: string,
     @Res() res: Response
   ) {
-    const tokens = await this.authService.getTokens(payload);
+    const token = await this.authService.getTokens(payload);
     const id: string = uuid();
     this.logger.log(
       "User refresh api called",
@@ -110,7 +111,7 @@ export class AuthController {
       "/refresh",
       "refreshTokens"
     );
-    res.cookie("access_token", tokens.access_token, {
+    res.cookie("access_token", token.access_token, {
       httpOnly: false,
       expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
       path: "/",
@@ -118,7 +119,7 @@ export class AuthController {
       secure: false,
     });
 
-    res.cookie("refresh_token", tokens.refresh_token, {
+    res.cookie("refresh_token", token.refresh_token, {
       httpOnly: false,
       expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
       path: "/",
@@ -131,7 +132,7 @@ export class AuthController {
       HttpStatus.OK,
       statusMessage[HttpStatus.OK],
       true,
-      null
+      token
     );
   }
 
