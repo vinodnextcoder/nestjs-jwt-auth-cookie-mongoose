@@ -38,8 +38,8 @@ export class UserService {
     return this.userModel.find().exec();
   }
 
-  async findOne(id: string): Promise<userData> {
-    return this.userModel.findOne({ _id: id }).exec();
+  async findOne(id: string, projection = {}): Promise<userData> {
+    return this.userModel.findOne({ _id: id }, projection).exec();
   }
 
   async findOneUser(email: string): Promise<userData> {
