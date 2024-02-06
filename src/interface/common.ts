@@ -5,9 +5,9 @@ export interface responseData {
     path?: String;
     data?: [] | null;
     message: String,
-    isSuccess : Boolean,
-    error: string | null |[]
-    
+    isSuccess: Boolean,
+    error: string | null | []
+
 }
 
 export interface userData {
@@ -18,9 +18,12 @@ export interface userData {
     email?: String;
     email_code?: String;
     password?: String;
-    password_reset_code? :String
-    _id? : Types.ObjectId | String| null
-    hashdRt? :String | null
+    password_reset_code?: String
+    _id?: Types.ObjectId | String | null
+    hashdRt?: String | null
+}
+export interface UserRequest extends Request {
+    user: any
 }
 
 

@@ -3,7 +3,10 @@ import {
   Controller,
   Get,
   HttpStatus,
+  Param,
   Post,
+  Query,
+  Req,
   Res,
   UseFilters,
   UseGuards,
@@ -14,7 +17,7 @@ import { Public } from "../common/decorators";
 import { LoggerService } from '../common/service/logger.service';
 import { UserService } from "./users.service";
 import { CreateUserDto } from "./dto/create-user.dto";
-import { Response } from "express";
+import { Request, Response } from "express";
 import {
   sendResponse,
   userErrorResponse,
@@ -23,7 +26,7 @@ import {
 } from "../utils";
 import { statusMessage } from "../constant/statusMessage";
 import { HttpExceptionFilter } from "../utils/http-exception.filter";
-import { responseData, userData } from "../interface/common";
+import { UserRequest, responseData, userData } from "../interface/common";
 import { AuthGuard } from "../common/guards/at.guard";
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { v4 as uuid } from 'uuid';
@@ -53,7 +56,11 @@ export class UserController {
     const id: string = uuid();
     this.logger.log('User create api called', id, 'users.controler.ts', 'POST', '/users', 'create');
     const user = await this.userService.create(createCatDto);
-    await this.mailer.sendEmailVerification(user.email, user.email_code)
+    const isMAil = process.env.IS_EMAIL
+    console.log('##############', isMAil)
+    if (isMAil === "true") {
+      await this.mailer.sendEmailVerification(user.email, user.email_code)
+    }
     return sendResponse(
       res,
       HttpStatus.CREATED,
@@ -85,4 +92,38 @@ export class UserController {
       userList
     );
   }
+
+
+  // get user
+  @ApiOperation({
+    summary: "User List",
+    description: "Get User List",
+  })
+  @ApiResponse(userListSuccessResponse)
+  @ApiResponse({ status: 403, description: "Forbidden." })
+  @UseGuards(AuthGuard)
+  @Get('getuser')
+  @UseFilters(new HttpExceptionFilter())
+  async findUser(@Query('userid') name: string, @Req() req: UserRequest, @Res() res: Response): Promise<any> {
+    const id: string = uuid();
+    this.logger.log('find User api called', id, 'users.controler.ts', 'GET', '/getuser', 'findUser');
+
+    let userid: string = null;
+    if (userid) {
+      userid = userid;
+    } else {
+      userid = req.user.sub
+    }
+    userid = req.user.sub
+    let projection = { _id: 1, first_name: 1, last_name: 1, email: 1 }
+    const userList = await this.userService.findOne(userid, projection);
+    return sendResponse(
+      res,
+      HttpStatus.OK,
+      statusMessage[HttpStatus.OK],
+      true,
+      userList
+    );
+  }
+
 }
