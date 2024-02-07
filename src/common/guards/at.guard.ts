@@ -49,7 +49,7 @@ export class AuthGuard implements CanActivate {
     let isCookieAuth = `${process.env.IS_COOKIE_AUTH}`;
     let token = undefined;
     if (isCookieAuth === "true") {
-      token = request?.cookies?.refresh_token ?? null;
+      token = request?.cookies?.access_token ?? null;
     } else {
       const [type, tokenValue] =
         request.headers.authorization?.split(" ") ?? [];
