@@ -20,17 +20,21 @@ export class AuthService {
     const id: string = uuid();
     this.logger.log('auth service api called', id, 'auth.service.ts', '', '', 'signIn-service');
     const user = await this.usersService.findOneUser(email);
+    console.log(user)
     if (!user) {
       throw new UnauthorizedException('Username and password wrong.');
     }
 
     const match = await bcrypt.compare(pass, user?.password);
+    console.log(match)
     if (match) {
       const payload = { email: user.email, userId: user._id.toString(), username: user.username };
       const tokens = await this.getTokens(payload);
       return {
         ...tokens
       };
+    } else {
+      throw new UnauthorizedException('Username and password wrong.');
     }
 
   }
