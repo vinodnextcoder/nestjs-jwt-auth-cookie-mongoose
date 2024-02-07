@@ -106,6 +106,7 @@ export class UserController {
   @UseFilters(new HttpExceptionFilter())
   async findUser(@Query('userid') name: string, @Req() req: UserRequest, @Res() res: Response): Promise<any> {
     const id: string = uuid();
+    console.log('=============================================================IN FUNCTION')
     this.logger.log('find User api called', id, 'users.controler.ts', 'GET', '/getuser', 'findUser');
 
     let userid: string = null;

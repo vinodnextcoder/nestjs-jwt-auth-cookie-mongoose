@@ -61,6 +61,8 @@ export class AuthController {
       signInDto.password
     );
     console.log(token)
+    console.log(signInDto.email,
+      signInDto.password)
 
     res.cookie("access_token", token.access_token, {
       httpOnly: true,
