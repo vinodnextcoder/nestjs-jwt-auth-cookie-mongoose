@@ -56,13 +56,10 @@ export class UserController {
   ): Promise<responseData> {
     const id: string = uuid();
     this.logger.log('User create api called', id, 'users.controler.ts', 'POST', '/users', 'create');
-    console.log(
-      createUserDto
-    )
-    createUserDto.roleId = createUserDto.roleId;
+
     const user = await this.userService.create(createUserDto);
     const isMAil = process.env.IS_EMAIL
-    console.log('##############', isMAil)
+  
     if (isMAil === "true") {
       await this.mailer.sendEmailVerification(user.email, user.email_code)
     }

@@ -28,8 +28,8 @@ export class User {
   updatedAt: Date;
   @Prop({ default: false })
   isEmailVerify: Boolean;
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Roles' })
-  roleId : string
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Roles.name })
+  roles: Roles;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

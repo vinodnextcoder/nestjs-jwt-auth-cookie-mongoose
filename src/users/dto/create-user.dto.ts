@@ -6,6 +6,7 @@ import {
   IsStrongPassword,
 } from "class-validator";
 import mongoose, { ObjectId } from "mongoose";
+import { Roles } from "../../roles/schemas/roles.schema";
 
 export class CreateUserDto {
   @ApiProperty({ example: 'testname', description: 'username of the user' })
@@ -41,6 +42,6 @@ export class CreateUserDto {
   @ApiProperty({ description: 'Email verification status' })
   isEmailVerify?: Boolean;
   @ApiPropertyOptional({ example: 'iiiisskjkjakk', description: 'Roleid ' })
-  roleId?: string
+  roles?: Roles
   
 }
