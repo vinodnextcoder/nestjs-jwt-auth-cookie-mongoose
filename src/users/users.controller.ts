@@ -31,6 +31,7 @@ import { AuthGuard } from "../common/guards/at.guard";
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { v4 as uuid } from 'uuid';
 import { EmailService } from '../common/service/mail.service';
+import mongoose from "mongoose";
 
 @ApiTags("users")
 @Controller("v1/users")
@@ -50,12 +51,16 @@ export class UserController {
   @UseFilters(new HttpExceptionFilter())
   @UsePipes(new ValidationPipe({ transform: true }))
   async create(
-    @Body() createCatDto: CreateUserDto,
+    @Body() createUserDto: CreateUserDto,
     @Res() res: Response
   ): Promise<responseData> {
     const id: string = uuid();
     this.logger.log('User create api called', id, 'users.controler.ts', 'POST', '/users', 'create');
-    const user = await this.userService.create(createCatDto);
+    console.log(
+      createUserDto
+    )
+    createUserDto.roleId = createUserDto.roleId;
+    const user = await this.userService.create(createUserDto);
     const isMAil = process.env.IS_EMAIL
     console.log('##############', isMAil)
     if (isMAil === "true") {
