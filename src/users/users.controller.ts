@@ -77,6 +77,7 @@ export class UserController {
     summary: "User List",
     description: "Get User List",
   })
+  @Public()
   @ApiResponse(userListSuccessResponse)
   @ApiResponse({ status: 403, description: "Forbidden." })
   @UseGuards(AuthGuard)

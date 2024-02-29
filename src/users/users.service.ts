@@ -35,15 +35,15 @@ export class UserService {
   async findAll(): Promise<userData[]> {
     const id: string = uuid();
     this.logger.log('User service findall called', id, 'users.service.ts', '', '', 'findAll-service');
-    return this.userModel.find().exec();
+    return this.userModel.find().populate('roles').exec();
   }
 
   async findOne(id: string, projection = {}): Promise<userData> {
-    return this.userModel.findOne({ _id: id }, projection).exec();
+    return this.userModel.findOne({ _id: id }, projection).populate('roles').exec();
   }
 
   async findOneUser(email: string): Promise<userData> {
-    return this.userModel.findOne({ email: email }).exec();
+    return this.userModel.findOne({ email: email }).populate('roles').exec();
   }
   async delete(id: string) {
     const deletedUser = await this.userModel
