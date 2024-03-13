@@ -45,4 +45,24 @@ export class RolesController {
       null
     );
   }
+
+
+  @Public()
+  @HttpCode(200)
+  @UseFilters(new HttpExceptionFilter())
+  @UsePipes(new ValidationPipe({ transform: true }))
+  @Version('1')
+  @Get('/list')
+  async getRoles(@Res() res: Response): Promise<any[]> {
+    const id: string = uuid();
+    this.logger.log('roles controller called', id, 'roles.controler.ts', 'POST', '/', 'roles');
+    const rolesList = await this.rolesService.findAll();
+    return sendResponse(
+      res,
+      HttpStatus.OK,
+      statusMessage[HttpStatus.OK],
+      true,
+      rolesList
+    );
+  }
 }

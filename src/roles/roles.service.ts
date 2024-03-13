@@ -20,5 +20,10 @@ export class RolesService {
     return createProduct;
   }
 
+  async findAll(): Promise<any[]> {
+    const id: string = uuid();
+    this.logger.log('Roles service findall called', id, 'roles.service.ts', '', '', 'findAll-service');
+    return this.roleModel.find().exec();
+  }
   
 }
