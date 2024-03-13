@@ -32,7 +32,7 @@ export class RolesController {
   @UsePipes(new ValidationPipe({ transform: true }))
   @Version('1')
   @Post('/add')
-  async addProduct(@Body() productDto: any, @Res() res: Response): Promise<string> {
+  async addRole(@Body() productDto: any, @Res() res: Response): Promise<string> {
     console.log(productDto)
     const id: string = uuid();
     this.logger.log('roles controller called', id, 'roles.controler.ts', 'POST', '/', 'roles');
