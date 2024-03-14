@@ -7,6 +7,7 @@ import { LoggerMiddleware } from './common/service/loggermiddleware.service';
 import { DatabaseModule } from './config/database.module';
 import { helloModule } from './hello/hello.module';
 import { roleModule } from './roles/roles.module';
+import { app_Module } from './app_module/module.module';
 
 console.log(`${process.cwd()}/.env.${process.env.NODE_ENV}`)
 
@@ -21,7 +22,8 @@ console.log(`${process.cwd()}/.env.${process.env.NODE_ENV}`)
     UserModule,
     AuthModule,
     helloModule,
-    roleModule
+    roleModule,
+    app_Module
   ],
   providers: [
     LoggerService
