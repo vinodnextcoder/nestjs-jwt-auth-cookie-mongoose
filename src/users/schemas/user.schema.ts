@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument, ObjectId, now } from 'mongoose';
 import { Roles } from '../../roles/schemas/roles.schema';
-
+import { Modules } from '../../app_module/schemas/modules.schema'
 export type UserDocument = HydratedDocument<User>;
 
 @Schema({ timestamps: true })
@@ -30,6 +30,8 @@ export class User {
   isEmailVerify: Boolean;
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Roles.name })
   roles: Roles;
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Modules.name })
+  module: Modules;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
