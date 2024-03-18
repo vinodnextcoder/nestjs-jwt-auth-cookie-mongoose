@@ -41,10 +41,11 @@ export class CreateUserDto {
   updatedAt?: Date;
   @ApiProperty({ description: 'Email verification status' })
   isEmailVerify?: Boolean;
+
   @ApiPropertyOptional({ example: 'iiiisskjkjakk', description: 'Roleid ' })
   roles?: Roles
 
-  @ApiPropertyOptional({ example: 'iiiisskjkjakk', description: 'Roleid ' })
+  @ApiPropertyOptional({ example: 'iiiisskjkjakk', description: 'Moduleid ' })
   modules?: Modules
   
 }
